@@ -85,13 +85,50 @@
       border: 2px dashed var(--royal-light); cursor: pointer;
     }
     .cat-checkbox-group {
-      max-height: 200px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 10px;
-      background: #f9fcff; padding: 18px;
-    }
-    .cat-checkbox-group label {
-      background: #e9f0ff; padding: 8px 18px; border-radius: 40px; font-weight: 500;
-      display: inline-flex; align-items: center; gap: 8px; margin: 0;
-    }
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 10px;
+  background: #f9fcff;
+  padding: 16px 14px;
+  border-radius: 28px;
+  border: 1px solid #d3e0ff;
+}
+
+.cat-checkbox-group label {
+  background: #e9f0ff;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: 0.1s;
+}
+
+.cat-checkbox-group label:has(input:checked) {
+  background: #2a5ac9;
+  color: white;
+  border-color: #1a3f8f;
+}
+
+/* Evita quebra estranha em mobile */
+@media (max-width: 600px) {
+  .cat-checkbox-group {
+    padding: 12px 10px;
+    gap: 6px 8px;
+  }
+  .cat-checkbox-group label {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+}
     .form-actions { display: flex; gap: 20px; justify-content: flex-end; margin-top: 10px; }
     .btn {
       padding: 16px 36px; border-radius: 50px; font-weight: 700; font-size: 1.2rem;
@@ -135,51 +172,72 @@
     }
     .color-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
 
-    /* footer */
-      .simple-footer {
-    margin-top: 48px;
-    padding: 28px 20px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 40px 40px 20px 20px;
-    border-top: 2px solid #2a5ac9;
-    box-shadow: 0 -4px 12px rgba(26, 63, 143, 0.06);
-    color: #0b2552;
-  }
+    /* FOOTER RESPONSIVO */
+.simple-footer {
+  margin-top: 40px;
+  padding: 18px 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 30px 30px 18px 18px;
+  border-top: 2px solid #2a5ac9;
+  box-shadow: 0 -4px 12px rgba(26, 63, 143, 0.06);
+  color: #0b2552;
+}
 
+.footer-verse {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.footer-verse i {
+  color: #2a5ac9;
+  font-size: 1rem;
+}
+
+.footer-love {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #1a3f8f;
+}
+
+.footer-motto {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #2a5ac9;
+}
+
+.footer-motto i {
+  margin: 0 3px;
+}
+
+/* Ajuste extra para telas muito pequenas */
+@media (max-width: 480px) {
+  .simple-footer {
+    padding: 14px 10px;
+    margin-top: 30px;
+  }
   .footer-verse {
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: -0.2px;
-    margin-bottom: 8px;
+    font-size: 0.9rem;
   }
-
-  .footer-verse i {
-    color: #2a5ac9;
-    margin-right: 6px;
-  }
-
   .footer-love {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #1a3f8f;
+    font-size: 0.85rem;
   }
-
   .footer-motto {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #2a5ac9;
-    margin-top: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
   }
-
-  .footer-motto i {
-    margin: 0 4px;
-  }
+}
 </style>
   </style>
 </head>
