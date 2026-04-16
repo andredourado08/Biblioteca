@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover">
   <title>📘 Biblioteca da Princesa Gabriela</title>
-  <!-- Font Awesome, Google Fonts e PDF.js -->
+  <!-- Fontes e bibliotecas -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -19,7 +19,7 @@
     body {
       background: linear-gradient(145deg, #f0f5ff 0%, #e6edfb 100%);
       min-height: 100vh;
-      padding: 16px 12px 30px;
+      padding: 20px 16px 0;
       color: #0a1e3c;
     }
 
@@ -40,71 +40,147 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
       background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(12px);
-      padding: 14px 22px;
-      border-radius: 48px;
+      padding: 16px 28px;
+      border-radius: 60px;
       box-shadow: var(--shadow);
       border: 1px solid rgba(65, 105, 225, 0.25);
     }
-    .header-title i { font-size: 2.2rem; color: var(--royal); }
-    .header-title h1 { font-weight: 700; font-size: 1.8rem; color: #0b2552; }
-    .crown-badge { background: var(--royal); color: white; padding: 6px 16px; border-radius: 40px; }
+    .header-title { display: flex; align-items: center; gap: 12px; }
+    .header-title i { font-size: 2.4rem; color: var(--royal); }
+    .header-title h1 { font-weight: 700; font-size: 2rem; color: #0b2552; }
+    .crown-badge { background: var(--royal); color: white; padding: 8px 22px; border-radius: 40px; font-weight: 600; }
 
+    /* botão adicionar e espaçamento */
+    .add-section { margin: 30px 0 20px; }
     .add-button {
-      background: var(--royal); color: white; padding: 14px 24px; border-radius: 60px;
-      font-size: 1.2rem; font-weight: 600; border: none; cursor: pointer;
+      background: var(--royal); color: white; padding: 16px 30px; border-radius: 60px;
+      font-size: 1.3rem; font-weight: 600; border: none; cursor: pointer;
+      box-shadow: 0 10px 18px -4px #1a3f8f80; transition: 0.2s;
     }
+    .add-button:hover { background: #1e4bb3; transform: scale(1.02); }
 
-    /* formulário (mesmo estilo anterior) */
-    .book-form-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 36px; padding: 24px; margin:20px 0; display: none; }
+    /* painel formulário */
+    .book-form-panel {
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 40px;
+      padding: 30px 28px; margin: 30px 0; display: none;
+      box-shadow: var(--shadow); border: 1px solid #a7c0fd;
+    }
     .book-form-panel.show { display: block; }
-    .form-grid { display: grid; gap: 18px; }
-    .cat-checkbox-group { max-height: 180px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 8px; background: #f9fcff; padding: 12px; border-radius: 24px; }
-    .cat-checkbox-group label { background: #e9f0ff; padding: 6px 14px; border-radius: 30px; }
+    .form-grid { display: grid; gap: 24px; }
+    @media (min-width: 640px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+    .full-width { grid-column: 1 / -1; }
+    label { font-weight: 600; color: #102a54; display: block; margin-bottom: 8px; font-size: 1.1rem; }
+    input, .fake-file, .cat-checkbox-group {
+      width: 100%; padding: 16px 20px; background: white; border: 2px solid #d3e0ff;
+      border-radius: 40px; font-size: 1rem; outline: none;
+    }
+    input:focus { border-color: var(--royal); }
+    .file-wrapper { position: relative; }
+    .file-wrapper input[type="file"] { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; }
+    .fake-file {
+      background: #f0f5ff; display: flex; align-items: center; gap: 12px; color: #1a3f8f;
+      border: 2px dashed var(--royal-light); cursor: pointer;
+    }
+    .cat-checkbox-group {
+      max-height: 200px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 10px;
+      background: #f9fcff; padding: 18px;
+    }
+    .cat-checkbox-group label {
+      background: #e9f0ff; padding: 8px 18px; border-radius: 40px; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 8px; margin: 0;
+    }
+    .form-actions { display: flex; gap: 20px; justify-content: flex-end; margin-top: 10px; }
+    .btn {
+      padding: 16px 36px; border-radius: 50px; font-weight: 700; font-size: 1.2rem;
+      border: none; cursor: pointer; transition: 0.2s;
+    }
+    .btn-primary { background: var(--royal); color: white; box-shadow: 0 8px 16px #1a3f8f60; }
+    .btn-secondary { background: #eef3ff; color: #1a3f8f; border: 2px solid #b6ceff; }
 
-    /* livros */
-    .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-    .book-card { background: var(--bg-card); border-radius: 24px; padding: 14px; box-shadow: var(--shadow); }
-    .book-cover { aspect-ratio: 3/4; background: #d9e6ff; border-radius: 16px; overflow: hidden; }
+    /* coleção */
+    .section-title { margin: 40px 0 20px; font-size: 2rem; }
+    .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 24px; }
+    .book-card { background: var(--bg-card); border-radius: 28px; padding: 18px 14px; box-shadow: var(--shadow); }
+    .book-cover { aspect-ratio: 3/4; border-radius: 18px; overflow: hidden; margin-bottom: 14px; }
     .book-cover img { width: 100%; height: 100%; object-fit: cover; }
     .default-cover { background: linear-gradient(145deg, #2a5ac9, #1e3f8a); color: white; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; height: 100%; }
-    .cat-tag { background: var(--royal-soft); padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; }
-    .progress-indicator { font-size: 0.8rem; color: var(--royal-dark); }
-    .icon-btn { background: #ecf2ff; border: none; border-radius: 30px; padding: 8px; cursor: pointer; }
+    .cat-tag { background: var(--royal-soft); padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; }
+    .progress-indicator { font-size: 0.9rem; color: var(--royal-dark); margin: 8px 0; }
+    .icon-btn { background: #ecf2ff; border: none; border-radius: 30px; padding: 10px; cursor: pointer; font-weight: 600; }
 
-    /* LEITOR MELHORADO */
+    /* leitor overlay */
     .reader-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: #0a1424; z-index: 1000; display: none; flex-direction: column;
     }
     .reader-toolbar {
-      display: flex; align-items: center; padding: 8px 12px; background: #102a44; color: white;
-      gap: 8px; flex-wrap: wrap;
+      display: flex; align-items: center; padding: 10px 16px; background: #102a44; color: white;
+      gap: 10px; flex-wrap: wrap;
     }
     .reader-toolbar button {
-      background: #2e4e7a; border: none; color: white; padding: 6px 12px;
-      border-radius: 30px; font-weight: 600;
+      background: #2e4e7a; border: none; color: white; padding: 10px 16px;
+      border-radius: 30px; font-weight: 600; cursor: pointer;
     }
-    .page-info { margin-left: auto; }
     #pdfViewerContainer {
       flex: 1; overflow: auto; display: flex; justify-content: center;
-      background: #525659; padding: 12px;
+      background: #525659; padding: 12px; touch-action: pan-y; 
     }
-    #pdfCanvas {
-      max-width: 100%; height: auto; display: block; box-shadow: 0 4px 12px black;
-      background: white; touch-action: pan-y pinch-zoom;
-    }
+    #pdfCanvas { max-width: 100%; height: auto; display: block; box-shadow: 0 4px 12px black; background: white; touch-action: none; }
     .highlight-tooltip {
-      position: absolute; background: #1e3a6b; border-radius: 40px; padding: 8px 12px;
-      display: none; gap: 8px; box-shadow: 0 4px 12px black; z-index: 1100;
+      position: absolute; background: #1e3a6b; border-radius: 40px; padding: 10px 14px;
+      display: none; gap: 10px; box-shadow: 0 4px 12px black; z-index: 1100;
     }
-    .color-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
-    .note-badge {
-      position: absolute; background: gold; color: black; border-radius: 20px;
-      padding: 2px 8px; font-size: 12px; font-weight: bold; cursor: pointer;
-    }
+    .color-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
+
+    /* footer */
+      .simple-footer {
+    margin-top: 48px;
+    padding: 28px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 40px 40px 20px 20px;
+    border-top: 2px solid #2a5ac9;
+    box-shadow: 0 -4px 12px rgba(26, 63, 143, 0.06);
+    color: #0b2552;
+  }
+
+  .footer-verse {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    margin-bottom: 8px;
+  }
+
+  .footer-verse i {
+    color: #2a5ac9;
+    margin-right: 6px;
+  }
+
+  .footer-love {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #1a3f8f;
+  }
+
+  .footer-motto {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #2a5ac9;
+    margin-top: 8px;
+  }
+
+  .footer-motto i {
+    margin: 0 4px;
+  }
+</style>
   </style>
 </head>
 <body>
@@ -112,37 +188,61 @@
   <header class="royal-header">
     <div class="header-title">
       <i class="fas fa-crown" style="color: #f9c74f;"></i>
-      <h1>Biblioteca da <span>Princesa</span> 👸</h1>
+      <h1>Biblioteca da <span style="color: var(--royal);">Princesa</span> 👸</h1>
     </div>
     <div class="crown-badge"><i class="fas fa-heart"></i> Gabriela</div>
   </header>
 
   <div class="add-section">
-    <button class="add-button" id="showFormBtn"><i class="fas fa-plus-circle"></i> Adicionar livro</button>
+    <button class="add-button" id="showFormBtn"><i class="fas fa-plus-circle"></i> Adicionar novo livro</button>
   </div>
 
-  <!-- formulário (mantido igual) -->
+  <!-- Formulário estilizado -->
   <div class="book-form-panel" id="formPanel">
     <form id="bookForm">
       <div class="form-grid">
-        <div><label>Título *</label><input type="text" id="bookTitle" required></div>
-        <div><label>Capa</label><input type="file" id="coverImage" accept="image/*"></div>
-        <div class="full-width"><label>Categorias</label><div class="cat-checkbox-group" id="categoryCheckboxes"></div></div>
-        <div class="full-width"><label>PDF *</label><input type="file" id="pdfFile" accept=".pdf" required></div>
-        <div style="display:flex; gap:16px; justify-content:flex-end;">
-          <button type="button" class="btn-secondary" id="cancelFormBtn">Cancelar</button>
-          <button type="submit" class="btn-primary">Salvar</button>
+        <div><label><i class="fas fa-heading"></i> Título *</label><input type="text" id="bookTitle" required></div>
+        <div>
+          <label><i class="fas fa-image"></i> Capa (opcional)</label>
+          <div class="file-wrapper">
+            <div class="fake-file"><i class="fas fa-cloud-upload-alt"></i> Escolher imagem...</div>
+            <input type="file" id="coverImage" accept="image/*">
+          </div>
+        </div>
+        <div class="full-width"><label><i class="fas fa-tags"></i> Categorias</label><div class="cat-checkbox-group" id="categoryCheckboxes"></div></div>
+        <div class="full-width">
+          <label><i class="fas fa-file-pdf"></i> Arquivo PDF *</label>
+          <div class="file-wrapper">
+            <div class="fake-file"><i class="fas fa-file-pdf"></i> Selecionar PDF</div>
+            <input type="file" id="pdfFile" accept=".pdf" required>
+          </div>
+        </div>
+        <div class="form-actions full-width">
+          <button type="button" class="btn btn-secondary" id="cancelFormBtn"><i class="fas fa-times"></i> Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar na estante</button>
         </div>
       </div>
     </form>
   </div>
 
-  <h2><i class="fas fa-bookmark"></i> Minha coleção</h2>
+  <h2 class="section-title"><i class="fas fa-bookmark"></i> Minha coleção</h2>
   <div id="booksContainer" class="books-grid"></div>
-  <div id="emptyState" style="text-align:center; padding:40px;">✨ Nenhum livro ainda...</div>
-</div>
+  <div id="emptyState" style="text-align:center; padding:50px; background:#ffffffb0; border-radius:48px;">✨ Nenhum livro ainda...</div>
 
-<!-- Leitor overlay redesenhado -->
+  <!-- Footer personalizado -->
+  <<footer class="simple-footer">
+  <div class="footer-verse">
+    <i class="fas fa-book-bible"></i> Josué 24:15 — “Eu e a minha casa serviremos ao Senhor.”
+  </div>
+  <div class="footer-love">
+    Eu e você SEMPRE serviremos ao Senhor, meu amor 
+  </div>
+  <div class="footer-motto">
+    <i class="fas fa-heart" style="color: #c44569;"></i> CORAGEMMMMM! <i class="fas fa-heart" style="color: #c44569;"></i>
+  </div>
+</footer>
+
+<!-- Leitor overlay -->
 <div class="reader-overlay" id="readerOverlay">
   <div class="reader-toolbar">
     <button id="closeReaderBtn"><i class="fas fa-arrow-left"></i> Voltar</button>
@@ -150,18 +250,17 @@
     <span class="page-info"><span id="currentPage">1</span>/<span id="totalPages">0</span></span>
     <button id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
     <button id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
-    <button id="toggleHighlightsBtn" title="Mostrar/ocultar marcações"><i class="fas fa-highlighter"></i></button>
+    <button id="toggleHighlightsBtn" title="Mostrar/ocultar marcações"><i class="fas fa-eye"></i> Marcações</button>
   </div>
   <div id="pdfViewerContainer">
     <div style="position: relative; display: inline-block;">
       <canvas id="pdfCanvas"></canvas>
-      <!-- tooltip de cores -->
       <div class="highlight-tooltip" id="highlightTooltip">
         <span class="color-dot" style="background:#F9E75C;" data-color="#F9E75C"></span>
         <span class="color-dot" style="background:#FF9A9E;" data-color="#FF9A9E"></span>
         <span class="color-dot" style="background:#A7F3D0;" data-color="#A7F3D0"></span>
         <span class="color-dot" style="background:#BFDBFE;" data-color="#BFDBFE"></span>
-        <button id="addNoteBtn" style="background:#2e4e7a; color:white; border:none; padding:4px 12px; border-radius:20px;"><i class="fas fa-pen"></i> Nota</button>
+        <button id="addNoteBtn" style="background:#2e4e7a; color:white; border:none; padding:6px 16px; border-radius:30px;"><i class="fas fa-pen"></i> Nota</button>
       </div>
     </div>
   </div>
@@ -169,33 +268,25 @@
 
 <script>
   (() => {
-    // ---------- CONFIGURAÇÕES ----------
-    const CATEGORIES = [
-      "Romance","Aventura","Ação","Drama","Comédia","Suspense","Terror","Mistério",
-      "Fantasia","Ficção científica","Filosofia","Psicologia","Autoajuda","Desenvolvimento pessoal",
-      "Espiritualidade","Educação","História","Ciência","Tecnologia","Negócios","Finanças",
-      "Biografia","Policial","Distopia","Crônicas","Poesia","Religioso"
-    ];
+    // Categorias
+    const CATEGORIES = ["Romance","Aventura","Ação","Drama","Comédia","Suspense","Terror","Mistério","Fantasia","Ficção científica","Filosofia","Psicologia","Autoajuda","Desenvolvimento pessoal","Espiritualidade","Educação","História","Ciência","Tecnologia","Negócios","Finanças","Biografia","Policial","Distopia","Crônicas","Poesia","Religioso"];
     
     // DB
-    const DB_NAME = 'PrincessLibraryV3';
-    const STORE_BOOKS = 'books';
-    const STORE_HIGHLIGHTS = 'highlights';
+    const DB_NAME = 'PrincessLibraryV4';
     let db;
-
     function openDB() {
       return new Promise((resolve, reject) => {
-        const req = indexedDB.open(DB_NAME, 3);
+        const req = indexedDB.open(DB_NAME, 4);
         req.onerror = () => reject(req.error);
         req.onsuccess = () => { db = req.result; resolve(db); };
         req.onupgradeneeded = (e) => {
           const dbRef = e.target.result;
-          if (!dbRef.objectStoreNames.contains(STORE_BOOKS)) {
-            const store = dbRef.createObjectStore(STORE_BOOKS, { keyPath: 'id', autoIncrement: true });
+          if (!dbRef.objectStoreNames.contains('books')) {
+            const store = dbRef.createObjectStore('books', { keyPath: 'id', autoIncrement: true });
             store.createIndex('by_title', 'title');
           }
-          if (!dbRef.objectStoreNames.contains(STORE_HIGHLIGHTS)) {
-            const hs = dbRef.createObjectStore(STORE_HIGHLIGHTS, { keyPath: 'id', autoIncrement: true });
+          if (!dbRef.objectStoreNames.contains('highlights')) {
+            const hs = dbRef.createObjectStore('highlights', { keyPath: 'id', autoIncrement: true });
             hs.createIndex('bookId', 'bookId');
           }
         };
@@ -203,97 +294,39 @@
     }
     async function getDB() { if (!db) await openDB(); return db; }
 
-    // Books CRUD
-    async function saveBook(book) {
-      const database = await getDB();
-      return new Promise((res, rej) => {
-        const tx = database.transaction(STORE_BOOKS, 'readwrite');
-        const req = tx.objectStore(STORE_BOOKS).add(book);
-        req.onsuccess = () => res(req.result);
-        req.onerror = rej;
-      });
-    }
-    async function updateBook(id, updates) {
-      const database = await getDB();
-      const tx = database.transaction(STORE_BOOKS, 'readwrite');
-      const store = tx.objectStore(STORE_BOOKS);
-      const getReq = store.get(id);
-      return new Promise((res, rej) => {
-        getReq.onsuccess = () => {
-          const book = getReq.result;
-          if (!book) return rej('not found');
-          Object.assign(book, updates);
-          store.put(book).onsuccess = () => res();
-        };
-      });
-    }
-    async function getAllBooks() {
-      const database = await getDB();
-      return new Promise((res) => {
-        const tx = database.transaction(STORE_BOOKS, 'readonly');
-        tx.objectStore(STORE_BOOKS).getAll().onsuccess = (e) => res(e.target.result || []);
-      });
-    }
-    async function getBook(id) {
-      const database = await getDB();
-      return new Promise((res) => {
-        database.transaction(STORE_BOOKS).objectStore(STORE_BOOKS).get(id).onsuccess = (e) => res(e.target.result);
-      });
-    }
-    async function deleteBook(id) {
-      const database = await getDB();
-      const tx = database.transaction([STORE_BOOKS, STORE_HIGHLIGHTS], 'readwrite');
-      tx.objectStore(STORE_BOOKS).delete(id);
-      const idx = tx.objectStore(STORE_HIGHLIGHTS).index('bookId');
-      idx.openCursor(IDBKeyRange.only(id)).onsuccess = (e) => {
-        const cursor = e.target.result;
-        if (cursor) { cursor.delete(); cursor.continue(); }
-      };
-      return new Promise(res => { tx.oncomplete = res; });
-    }
+    // Helpers
+    async function saveBook(book) { const database = await getDB(); return new Promise((res,rej) => { const tx = database.transaction('books','readwrite'); const req = tx.objectStore('books').add(book); req.onsuccess = () => res(req.result); req.onerror = rej; }); }
+    async function updateBook(id, updates) { const database = await getDB(); const tx = database.transaction('books','readwrite'); const store = tx.objectStore('books'); const getReq = store.get(id); return new Promise((res,rej) => { getReq.onsuccess = () => { const book = getReq.result; if(!book) return rej(); Object.assign(book, updates); store.put(book).onsuccess = () => res(); }; }); }
+    async function getAllBooks() { const database = await getDB(); return new Promise(res => { database.transaction('books').objectStore('books').getAll().onsuccess = e => res(e.target.result || []); }); }
+    async function getBook(id) { const database = await getDB(); return new Promise(res => { database.transaction('books').objectStore('books').get(id).onsuccess = e => res(e.target.result); }); }
+    async function deleteBook(id) { const database = await getDB(); const tx = database.transaction(['books','highlights'],'readwrite'); tx.objectStore('books').delete(id); const idx = tx.objectStore('highlights').index('bookId'); idx.openCursor(IDBKeyRange.only(id)).onsuccess = (e) => { const cursor = e.target.result; if(cursor) { cursor.delete(); cursor.continue(); } }; return new Promise(res => { tx.oncomplete = res; }); }
+    async function saveHighlight(hl) { const database = await getDB(); const tx = database.transaction('highlights','readwrite'); tx.objectStore('highlights').add(hl); return new Promise(res => { tx.oncomplete = res; }); }
+    async function getHighlights(bookId) { const database = await getDB(); return new Promise(res => { database.transaction('highlights').objectStore('highlights').index('bookId').getAll(bookId).onsuccess = e => res(e.target.result || []); }); }
 
-    // Highlights
-    async function saveHighlight(hl) {
-      const database = await getDB();
-      const tx = database.transaction(STORE_HIGHLIGHTS, 'readwrite');
-      tx.objectStore(STORE_HIGHLIGHTS).add(hl);
-      return new Promise(res => { tx.oncomplete = res; });
-    }
-    async function getHighlights(bookId) {
-      const database = await getDB();
-      return new Promise((res) => {
-        const tx = database.transaction(STORE_HIGHLIGHTS);
-        tx.objectStore(STORE_HIGHLIGHTS).index('bookId').getAll(bookId).onsuccess = (e) => res(e.target.result || []);
-      });
-    }
-
-    // UI inicial
+    // UI Categorias
     const catDiv = document.getElementById('categoryCheckboxes');
-    CATEGORIES.forEach(cat => {
-      const label = document.createElement('label');
-      label.innerHTML = `<input type="checkbox" value="${cat}"> ${cat}`;
-      catDiv.appendChild(label);
+    CATEGORIES.forEach(cat => { const l = document.createElement('label'); l.innerHTML = `<input type="checkbox" value="${cat}"> ${cat}`; catDiv.appendChild(l); });
+    // Fake file
+    document.querySelectorAll('.file-wrapper input[type=file]').forEach(input => {
+      input.addEventListener('change', e => { const fake = input.parentElement.querySelector('.fake-file'); fake.innerHTML = input.files.length ? `<i class="fas fa-check"></i> ${input.files[0].name}` : '<i class="fas fa-cloud-upload-alt"></i> Escolher...'; });
     });
 
     const formPanel = document.getElementById('formPanel');
     document.getElementById('showFormBtn').onclick = () => formPanel.classList.add('show');
     document.getElementById('cancelFormBtn').onclick = () => { formPanel.classList.remove('show'); bookForm.reset(); };
-
     const bookForm = document.getElementById('bookForm');
     bookForm.onsubmit = async (e) => {
       e.preventDefault();
       const title = document.getElementById('bookTitle').value.trim();
       const pdfFile = document.getElementById('pdfFile').files[0];
-      if (!title || !pdfFile) return alert('Título e PDF obrigatórios');
+      if(!title || !pdfFile) return alert('Título e PDF obrigatórios');
       const coverFile = document.getElementById('coverImage').files[0];
       let coverDataURL = null;
-      if (coverFile) coverDataURL = await new Promise(r => { const fr = new FileReader(); fr.onload = e => r(e.target.result); fr.readAsDataURL(coverFile); });
+      if(coverFile) coverDataURL = await new Promise(r => { const fr = new FileReader(); fr.onload = e => r(e.target.result); fr.readAsDataURL(coverFile); });
       const selectedCats = Array.from(document.querySelectorAll('#categoryCheckboxes input:checked')).map(cb => cb.value);
       const pdfBlob = new Blob([await pdfFile.arrayBuffer()], {type: 'application/pdf'});
       await saveBook({ title, coverDataURL, categories: selectedCats, pdfBlob, currentPage: 1 });
-      formPanel.classList.remove('show');
-      bookForm.reset();
-      renderBooks();
+      formPanel.classList.remove('show'); bookForm.reset(); renderBooks();
     };
 
     async function renderBooks() {
@@ -301,22 +334,11 @@
       const container = document.getElementById('booksContainer');
       const empty = document.getElementById('emptyState');
       empty.style.display = books.length ? 'none' : 'block';
-      let html = '';
-      books.sort((a,b) => (b.id||0)-(a.id||0));
-      for (let b of books) {
+      let html = ''; books.sort((a,b)=>(b.id||0)-(a.id||0));
+      for(let b of books) {
         const cover = b.coverDataURL ? `<img src="${b.coverDataURL}">` : `<div class="default-cover"><i class="fas fa-book"></i></div>`;
         const cats = (b.categories||[]).slice(0,3).map(c=>`<span class="cat-tag">${c}</span>`).join('');
-        html += `<div class="book-card" data-id="${b.id}">
-          <div class="book-cover">${cover}</div>
-          <div class="book-title">${escape(b.title)}</div>
-          <div class="book-cats">${cats}</div>
-          <div class="progress-indicator"><i class="fas fa-book-open"></i> Página ${b.currentPage||1}</div>
-          <div class="card-actions">
-            <button class="icon-btn read-btn" data-id="${b.id}"><i class="fas fa-book-reader"></i> Ler</button>
-            <button class="icon-btn download-btn" data-id="${b.id}"><i class="fas fa-download"></i></button>
-            <button class="icon-btn delete-btn" data-id="${b.id}"><i class="fas fa-trash"></i></button>
-          </div>
-        </div>`;
+        html += `<div class="book-card"><div class="book-cover">${cover}</div><div class="book-title">${escape(b.title)}</div><div class="book-cats">${cats}</div><div class="progress-indicator">📄 Página ${b.currentPage||1}</div><div class="card-actions"><button class="icon-btn read-btn" data-id="${b.id}"><i class="fas fa-book-reader"></i></button><button class="icon-btn download-btn" data-id="${b.id}"><i class="fas fa-download"></i></button><button class="icon-btn delete-btn" data-id="${b.id}"><i class="fas fa-trash"></i></button></div></div>`;
       }
       container.innerHTML = html;
       document.querySelectorAll('.read-btn').forEach(b => b.addEventListener('click', ()=> openReader(Number(b.dataset.id))));
@@ -324,199 +346,82 @@
       document.querySelectorAll('.delete-btn').forEach(b => b.addEventListener('click', ()=> { if(confirm('Excluir?')) deleteBook(Number(b.dataset.id)).then(renderBooks); }));
     }
     function escape(t) { const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+    async function downloadBook(id) { const book = await getBook(id); if(!book?.pdfBlob) return; const url = URL.createObjectURL(book.pdfBlob); const a = document.createElement('a'); a.href = url; a.download = `${book.title}.pdf`; a.click(); }
 
-    async function downloadBook(id) {
-      const book = await getBook(id);
-      if (!book?.pdfBlob) return;
-      const url = URL.createObjectURL(book.pdfBlob);
-      const a = document.createElement('a'); a.href = url; a.download = `${book.title}.pdf`; a.click();
-    }
-
-    // ---------- LEITOR PDF (AJUSTADO) ----------
-        // ---------- LEITOR PDF (FUNCIONAL + DICAS) ----------
+    // ----- LEITOR COM SWIPE E SELEÇÃO FUNCIONAL -----
     let pdfDoc = null, currentBookId = null, currentPageNum = 1, totalPages = 0;
     const canvas = document.getElementById('pdfCanvas'), ctx = canvas.getContext('2d');
     const overlay = document.getElementById('readerOverlay');
     const tooltip = document.getElementById('highlightTooltip');
-    let selectedText = '';
-    let selectionRect = null;
-    let showHighlights = true;
-
-    // Botões da toolbar
-    const closeBtn = document.getElementById('closeReaderBtn');
-    const prevBtn = document.getElementById('prevPageBtn');
-    const nextBtn = document.getElementById('nextPageBtn');
-    const toggleHighlightsBtn = document.getElementById('toggleHighlightsBtn');
-    // Renomear botão para evitar confusão
-    toggleHighlightsBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar marcações';
-    toggleHighlightsBtn.title = 'Mostrar/ocultar marcações salvas';
-
-    // Adicionar botão de ajuda
-    const helpBtn = document.createElement('button');
-    helpBtn.innerHTML = '<i class="fas fa-question-circle"></i> Como marcar?';
-    helpBtn.style.marginLeft = 'auto';
-    helpBtn.onclick = () => alert('🖍️ Para marcar um texto:\n1. Selecione uma palavra ou frase (no celular, pressione e segure).\n2. Uma barra de cores aparecerá abaixo da seleção.\n3. Escolha a cor ou clique em "Nota" para adicionar uma reflexão.');
-    document.querySelector('.reader-toolbar').appendChild(helpBtn);
+    let selectedText = '', selectionRect = null, showHighlights = true;
 
     async function openReader(bookId) {
-      currentBookId = bookId;
-      const book = await getBook(bookId);
-      if (!book?.pdfBlob) return;
-      document.getElementById('readerBookTitle').textContent = book.title;
-      overlay.style.display = 'flex';
-      const arrayBuffer = await book.pdfBlob.arrayBuffer();
-      pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      totalPages = pdfDoc.numPages;
-      document.getElementById('totalPages').textContent = totalPages;
-      currentPageNum = book.currentPage || 1;
-      await renderPage(currentPageNum);
+      currentBookId = bookId; const book = await getBook(bookId); if(!book?.pdfBlob) return;
+      document.getElementById('readerBookTitle').textContent = book.title; overlay.style.display = 'flex';
+      const arrayBuffer = await book.pdfBlob.arrayBuffer(); pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      totalPages = pdfDoc.numPages; document.getElementById('totalPages').textContent = totalPages;
+      currentPageNum = book.currentPage || 1; await renderPage(currentPageNum);
     }
 
     async function renderPage(num) {
-      const page = await pdfDoc.getPage(num);
-      const viewport = page.getViewport({ scale: 1.2 });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      const renderContext = { canvasContext: ctx, viewport };
-      await page.render(renderContext).promise;
+      const page = await pdfDoc.getPage(num); const viewport = page.getViewport({ scale: 1.2 });
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({ canvasContext: ctx, viewport }).promise;
       document.getElementById('currentPage').textContent = num;
-      if (currentBookId) updateBook(currentBookId, { currentPage: num });
-      if (showHighlights) await drawSavedHighlights(num);
+      if(currentBookId) updateBook(currentBookId, { currentPage: num });
+      if(showHighlights) await drawSavedHighlights(num);
     }
 
     async function drawSavedHighlights(pageNum) {
-      if (!currentBookId) return;
-      const highlights = await getHighlights(currentBookId);
-      const pageHighlights = highlights.filter(h => h.page === pageNum);
-      ctx.save();
-      pageHighlights.forEach(h => {
-        if (!h.rects) return;
-        ctx.fillStyle = h.color + '60';
-        h.rects.forEach(r => ctx.fillRect(r.x, r.y, r.w, r.h));
-      });
-      ctx.restore();
+      if(!currentBookId) return; const highlights = await getHighlights(currentBookId);
+      ctx.save(); highlights.filter(h=>h.page===pageNum).forEach(h=>{ if(!h.rects) return; ctx.fillStyle = h.color+'60'; h.rects.forEach(r=>ctx.fillRect(r.x, r.y, r.w, r.h)); }); ctx.restore();
     }
 
-    // Navegação
-    prevBtn.onclick = () => { if(currentPageNum>1) { currentPageNum--; renderPage(currentPageNum); } };
-    nextBtn.onclick = () => { if(currentPageNum<totalPages) { currentPageNum++; renderPage(currentPageNum); } };
-    closeBtn.onclick = () => overlay.style.display = 'none';
-    toggleHighlightsBtn.onclick = () => { 
-      showHighlights = !showHighlights; 
-      toggleHighlightsBtn.innerHTML = showHighlights ? '<i class="fas fa-eye"></i> Mostrar marcações' : '<i class="fas fa-eye-slash"></i> Ocultar marcações';
-      renderPage(currentPageNum); 
-    };
-
-    // ✅ SELEÇÃO DE TEXTO ROBUSTA (funciona em toque)
-    function showColorTooltip() {
-      const selection = window.getSelection();
-      selectedText = selection.toString().trim();
-      
-      if (!selectedText || selection.rangeCount === 0) {
-        tooltip.style.display = 'none';
-        return;
+    // Swipe
+    let touchStartX = 0;
+    canvas.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+    canvas.addEventListener('touchend', e => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0 && currentPageNum < totalPages) { currentPageNum++; renderPage(currentPageNum); }
+        else if (diff > 0 && currentPageNum > 1) { currentPageNum--; renderPage(currentPageNum); }
       }
+    });
 
-      // Pega o último range (funciona melhor em mobile)
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
+    // Seleção de texto funcional (sem bloqueio)
+    function showTooltip() {
+      const sel = window.getSelection(); selectedText = sel.toString().trim();
+      if(!selectedText || sel.rangeCount===0) { tooltip.style.display = 'none'; return; }
+      const range = sel.getRangeAt(0); const rect = range.getBoundingClientRect();
       const canvasRect = canvas.getBoundingClientRect();
-
-      // Verifica se a seleção está dentro do canvas
-      if (rect.left < canvasRect.left || rect.right > canvasRect.right || 
-          rect.top < canvasRect.top || rect.bottom > canvasRect.bottom) {
-        tooltip.style.display = 'none';
-        return;
-      }
-
-      // Posiciona tooltip
-      tooltip.style.display = 'flex';
-      tooltip.style.left = (rect.left + window.scrollX) + 'px';
-      tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-
-      // Captura retângulos (relativos ao canvas)
-      const rects = [];
-      const clientRects = range.getClientRects();
-      for (let i = 0; i < clientRects.length; i++) {
-        const r = clientRects[i];
-        rects.push({
-          x: r.left - canvasRect.left,
-          y: r.top - canvasRect.top,
-          w: r.width,
-          h: r.height
-        });
-      }
-      selectionRect = { range, rects };
+      if(rect.left < canvasRect.left || rect.right > canvasRect.right) { tooltip.style.display = 'none'; return; }
+      tooltip.style.display = 'flex'; tooltip.style.left = (rect.left + window.scrollX) + 'px'; tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+      const rects = []; for(let r of range.getClientRects()) rects.push({ x: r.left - canvasRect.left, y: r.top - canvasRect.top, w: r.width, h: r.height });
+      selectionRect = { rects };
     }
+    canvas.addEventListener('mouseup', showTooltip);
+    canvas.addEventListener('touchend', (e) => { setTimeout(showTooltip, 50); });
+    document.addEventListener('click', e => { if(!tooltip.contains(e.target) && !canvas.contains(e.target)) tooltip.style.display = 'none'; });
+    tooltip.addEventListener('click', e => e.stopPropagation());
 
-    // Eventos para mouse e toque
-    canvas.addEventListener('mouseup', showColorTooltip);
-    canvas.addEventListener('touchend', (e) => {
-      // Aguarda o navegador finalizar a seleção por toque
-      setTimeout(showColorTooltip, 100);
+    document.querySelectorAll('.color-dot').forEach(d => d.onclick = async (e) => {
+      const color = e.target.dataset.color; if(!selectedText) return alert('Selecione um trecho');
+      const note = prompt('💬 Nota/reflexão (opcional):');
+      await saveHighlight({ bookId: currentBookId, page: currentPageNum, text: selectedText, color, note: note||'', rects: selectionRect.rects });
+      tooltip.style.display = 'none'; renderPage(currentPageNum);
     });
-
-    // Se o usuário clicar fora, esconde a tooltip
-    document.addEventListener('click', (e) => {
-      if (!tooltip.contains(e.target) && !canvas.contains(e.target)) {
-        tooltip.style.display = 'none';
-      }
-    });
-    tooltip.addEventListener('click', (e) => e.stopPropagation());
-
-    // Ação das cores
-    document.querySelectorAll('.color-dot').forEach(dot => {
-      dot.onclick = async (e) => {
-        e.stopPropagation();
-        const color = e.target.dataset.color;
-        if (!selectedText) {
-          alert('Selecione um trecho primeiro.');
-          return;
-        }
-        if (!selectionRect || selectionRect.rects.length === 0) {
-          alert('Não foi possível capturar a área. Tente selecionar novamente.');
-          return;
-        }
-        const note = prompt('💬 Adicione uma reflexão (opcional):');
-        await saveHighlight({
-          bookId: currentBookId,
-          page: currentPageNum,
-          text: selectedText,
-          color,
-          note: note || '',
-          rects: selectionRect.rects
-        });
-        tooltip.style.display = 'none';
-        renderPage(currentPageNum);
-      };
-    });
-
-    // Botão "Nota" dedicado
-    document.getElementById('addNoteBtn').onclick = async (e) => {
-      e.stopPropagation();
-      if (!selectedText) {
-        alert('Selecione um trecho primeiro.');
-        return;
-      }
-      const note = prompt('📝 Escreva sua reflexão:');
-      if (note === null) return;
-      if (!selectionRect || selectionRect.rects.length === 0) {
-        alert('Área de seleção inválida.');
-        return;
-      }
-      await saveHighlight({
-        bookId: currentBookId,
-        page: currentPageNum,
-        text: selectedText,
-        color: '#F9E75C',
-        note,
-        rects: selectionRect.rects
-      });
-      tooltip.style.display = 'none';
-      renderPage(currentPageNum);
+    document.getElementById('addNoteBtn').onclick = async () => {
+      if(!selectedText) return alert('Selecione um trecho');
+      const note = prompt('📝 Reflexão:'); if(note===null) return;
+      await saveHighlight({ bookId: currentBookId, page: currentPageNum, text: selectedText, color: '#F9E75C', note, rects: selectionRect.rects });
+      tooltip.style.display = 'none'; renderPage(currentPageNum);
     };
 
-    // Inicializar DB e renderizar
+    document.getElementById('prevPageBtn').onclick = () => { if(currentPageNum>1) { currentPageNum--; renderPage(currentPageNum); } };
+    document.getElementById('nextPageBtn').onclick = () => { if(currentPageNum<totalPages) { currentPageNum++; renderPage(currentPageNum); } };
+    document.getElementById('closeReaderBtn').onclick = () => overlay.style.display = 'none';
+    document.getElementById('toggleHighlightsBtn').onclick = () => { showHighlights = !showHighlights; renderPage(currentPageNum); };
+
     openDB().then(() => renderBooks());
   })();
 </script>
