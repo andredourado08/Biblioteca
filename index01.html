@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>📎 Papelaria Arte & Ofício · Catálogo e Estoque</title>
+  <!-- Font Awesome para ícones de sol/lua e elementos visuais -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- VARIÁVEIS DE TEMA (LIGHT = PADRÃO) ----- */
+    :root {
+      --bg-page: #f8f5f0;
+      --bg-surface: #ffffff;
+      --text-primary: #2e241e;
+      --text-secondary: #5c4e44;
+      --border-light: #e5d9d0;
+      --accent: #b76e3c;
+      --accent-soft: #d99e6c;
+      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.03);
+      --header-bg: #fffaf5;
+      --badge-bg: #f0e7de;
+      --badge-text: #4a3c33;
+      --button-bg: #ffffffd9;
+      --button-border: #d4c4b8;
+      --hover-bg: #f3ede7;
+      --icon-color: #3b2c22;
+      --footer-text: #7a6a5e;
+    }
+
+    /* ----- TEMA ESCURO (classe .dark-mode no body) ----- */
+    body.dark-mode {
+      --bg-page: #1e1a16;
+      --bg-surface: #2c2620;
+      --text-primary: #f0e7de;
+      --text-secondary: #cdbcae;
+      --border-light: #4a4038;
+      --accent: #d99e6c;
+      --accent-soft: #e7b78a;
+      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+      --header-bg: #251f1a;
+      --badge-bg: #3f352e;
+      --badge-text: #e3d6cb;
+      --button-bg: #3a302a;
+      --button-border: #5f5148;
+      --hover-bg: #4d3f37;
+      --icon-color: #e7cfbe;
+      --footer-text: #b09b8c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      transition: background-color 0.3s ease, color 0.2s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 12px 24px;
+    }
+
+    /* container principal */
+    .wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ----- CABEÇALHO COM INFORMAÇÕES DA PAPELARIA + TOGGLE ----- */
+    .store-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--header-bg);
+      padding: 18px 24px;
+      border-radius: 32px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-light);
+      margin-bottom: 28px;
+      transition: background 0.3s, border 0.2s;
+    }
+
+    .store-info h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .store-info h1 i {
+      font-size: 1.8rem;
+      color: var(--accent-soft);
+    }
+
+    .store-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 30px;
+      margin-top: 8px;
+      color: var(--text-secondary);
+    }
+
+    .store-details span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    .store-details i {
+      width: 1.4rem;
+      color: var(--accent);
+    }
+
+    /* botão de tema */
+    .theme-toggle {
+      background: var(--button-bg);
+      border: 1.5px solid var(--button-border);
+      border-radius: 60px;
+      padding: 10px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      backdrop-filter: blur(4px);
+      transition: all 0.25s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .theme-toggle:hover {
+      background: var(--hover-bg);
+      transform: scale(1.02);
+      border-color: var(--accent);
+    }
+
+    .theme-toggle i {
+      font-size: 1.4rem;
+      color: var(--icon-color);
+    }
+
+    #theme-icon {
+      transition: transform 0.3s;
+    }
+
+    /* ----- RESUMO / INFORMAÇÕES ADICIONAIS (opcional) ----- */
+    .highlight-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      background: var(--bg-surface);
+      padding: 12px 22px;
+      border-radius: 40px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--card-shadow);
+    }
+
+    .badge-total {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .badge-total i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    /* ----- CATÁLOGO DE PRODUTOS (cards) ----- */
+    .catalog-title {
+      font-size: 1.8rem;
+      margin: 20px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px dashed var(--accent-soft);
+      padding-bottom: 10px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 22px;
+      margin-bottom: 30px;
+    }
+
+    .product-card {
+      background: var(--bg-surface);
+      border-radius: 24px;
+      padding: 20px 18px 18px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-light);
+      transition: transform 0.2s, background 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-soft);
+    }
+
+    .product-icon {
+      font-size: 2.6rem;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+
+    .product-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      color: var(--text-primary);
+    }
+
+    .product-quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--badge-bg);
+      padding: 10px 14px;
+      border-radius: 48px;
+      margin-top: auto;
+      margin-top: 16px;
+      font-weight: 500;
+      color: var(--badge-text);
+      border: 1px solid var(--border-light);
+    }
+
+    .product-quantity i {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    .stock-value {
+      margin-left: auto;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .unit-label {
+      font-size: 0.85rem;
+      font-weight: 400;
+      margin-left: 4px;
+      color: var(--text-secondary);
+    }
+
+    /* rodapé simples */
+    .footer-note {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--footer-text);
+      font-size: 0.95rem;
+      border-top: 1px solid var(--border-light);
+      padding-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* responsividade extra */
+    @media (max-width: 600px) {
+      body { padding: 8px 6px 16px; }
+      .store-header { flex-direction: column; align-items: stretch; gap: 16px; }
+      .store-info h1 { font-size: 1.7rem; }
+      .store-details { flex-direction: column; gap: 8px; }
+      .theme-toggle { align-self: flex-end; }
+      .product-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 400px) {
+      .product-grid { grid-template-columns: 1fr; }
+    }
+
+    /* animações suaves */
+    i, button { transition: all 0.2s; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <!-- CABEÇALHO: informações da papelaria + alternador de tema -->
+  <header class="store-header">
+    <div class="store-info">
+      <h1>
+        <i class="fas fa-pencil-ruler"></i> 
+        Papelaria Arte & Ofício
+      </h1>
+      <div class="store-details">
+        <span><i class="fas fa-map-pin"></i> Rua das Letras, 247 · Centro</span>
+        <span><i class="fas fa-phone-alt"></i> (11) 3456-7890</span>
+        <span><i class="fas fa-clock"></i> Seg-Sex 8h–19h · Sáb 9h–14h</span>
+      </div>
+    </div>
+    <!-- Botão tema (sol/lua) -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema claro/escuro">
+      <i class="fas fa-sun" id="themeIconSun"></i>
+      <i class="fas fa-moon" id="themeIconMoon" style="display: none;"></i>
+      <span id="themeLabel">Claro</span>
+    </button>
+  </header>
+
+  <!-- Barra rápida: total de produtos e quantidade geral -->
+  <div class="highlight-bar">
+    <span class="badge-total"><i class="fas fa-box-open"></i> Catálogo · 8 produtos em estoque</span>
+    <span class="badge-total" id="totalItemsDisplay"><i class="fas fa-cubes"></i> Itens totais: calculando...</span>
+  </div>
+
+  <!-- CATÁLOGO DE PRODUTOS -->
+  <h2 class="catalog-title">
+    <i class="fas fa-list-ul"></i> 
+    Nosso catálogo · disponível agora
+  </h2>
+
+  <div class="product-grid" id="productGrid">
+    <!-- Os cards serão gerados via JavaScript para facilitar manutenção 
+         e também exibir quantidade dinamicamente -->
+  </div>
+
+  <!-- Informações adicionais da loja (prático) -->
+  <div class="footer-note">
+    <span><i class="far fa-credit-card"></i> Aceitamos PIX, cartão e dinheiro</span>
+    <span><i class="fas fa-truck"></i> Entrega em 24h (capital)</span>
+    <span><i class="fas fa-gift"></i> Embrulho para presente grátis</span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    "use strict";
+
+    // ---------- DADOS DA PAPELARIA (produtos com nome, ícone, quantidade) ----------
+    const products = [
+      { name: "Caderno universitário 10 mat.", icon: "📓", quantity: 48, unit: "unid." },
+      { name: "Caneta esferográfica azul", icon: "🖊️", quantity: 212, unit: "unid." },
+      { name: "Lápis preto nº2", icon: "✏️", quantity: 158, unit: "unid." },
+      { name: "Borracha branca macia", icon: "🧽", quantity: 73, unit: "unid." },
+      { name: "Apontador com depósito", icon: "⚙️", quantity: 62, unit: "unid." },
+      { name: "Régua 30cm acrílica", icon: "📏", quantity: 41, unit: "unid." },
+      { name: "Papel sulfite A4 (pacote 100fls)", icon: "📄", quantity: 27, unit: "pct" },
+      { name: "Post-it colorido 100fls", icon: "📋", quantity: 34, unit: "bloco" }
+    ];
+
+    // Referências do DOM
+    const productGrid = document.getElementById('productGrid');
+    const totalItemsDisplay = document.getElementById('totalItemsDisplay');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIconSun = document.getElementById('themeIconSun');
+    const themeIconMoon = document.getElementById('themeIconMoon');
+    const themeLabel = document.getElementById('themeLabel');
+    const body = document.body;
+
+    // ---------- FUNÇÃO PARA RENDERIZAR CATÁLOGO (exibe nome e quantidade) ----------
+    function renderCatalog() {
+      if (!productGrid) return;
+      
+      let totalQuantity = 0;
+      let htmlString = '';
+
+      products.forEach(prod => {
+        totalQuantity += prod.quantity;
+        
+        // Escolher ícone extra (Font Awesome + emoji para charme)
+        let iconHtml = '';
+        if (prod.icon) {
+          // ícone textual, mas também podemos colocar um fallback visual
+          iconHtml = `<span style="font-size:2.4rem; line-height:1;">${prod.icon}</span>`;
+        } else {
+          iconHtml = `<i class="fas fa-tag"></i>`;
+        }
+
+        htmlString += `
+          <div class="product-card">
+            <div class="product-icon">${iconHtml}</div>
+            <div class="product-name">${prod.name}</div>
+            <div class="product-quantity">
+              <i class="fas fa-archive"></i> 
+              <span>Estoque</span>
+              <span class="stock-value">${prod.quantity}</span>
+              <span class="unit-label">${prod.unit}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      productGrid.innerHTML = htmlString;
+      
+      // Atualiza total de itens na barra
+      if (totalItemsDisplay) {
+        totalItemsDisplay.innerHTML = `<i class="fas fa-cubes"></i> Itens totais: ${totalQuantity} unidades`;
+      }
+    }
+
+    // ---------- GERENCIAMENTO DE TEMA (claro/escuro) com ícones sol/lua ----------
+    function setTheme(isDark) {
+      if (isDark) {
+        body.classList.add('dark-mode');
+        themeIconSun.style.display = 'none';
+        themeIconMoon.style.display = 'inline-block';
+        themeLabel.textContent = 'Escuro';
+      } else {
+        body.classList.remove('dark-mode');
+        themeIconSun.style.display = 'inline-block';
+        themeIconMoon.style.display = 'none';
+        themeLabel.textContent = 'Claro';
+      }
+      // Salvar preferência no localStorage (opcional, mas prático)
+      try {
+        localStorage.setItem('papelaria-theme', isDark ? 'dark' : 'light');
+      } catch(e) { /* ignora */ }
+    }
+
+    function toggleTheme() {
+      const isDarkNow = body.classList.contains('dark-mode');
+      setTheme(!isDarkNow);
+    }
+
+    // Verifica preferência salva
+    function loadSavedTheme() {
+      try {
+        const saved = localStorage.getItem('papelaria-theme');
+        if (saved === 'dark') {
+          setTheme(true);
+        } else if (saved === 'light') {
+          setTheme(false);
+        } else {
+          // se não houver preferência, respeita o padrão claro (false)
+          setTheme(false);
+        }
+      } catch(e) {
+        setTheme(false);
+      }
+    }
+
+    // ---------- EVENTOS ----------
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Inicialização
+    renderCatalog();
+    loadSavedTheme();
+
+    // (Opcional) pequena animação para o ícone do toggle ao passar o mouse, já feito no CSS.
+
+    // Se quiser garantir que o total fique atualizado, a render já faz.
+    // Podemos também expor a data de atualização do catálogo (fake)
+    
+    // Adiciona uma mensagem sutil no console para desenvolvedores (apenas diversão)
+    console.log('📋 Papelaria Arte & Ofício · Catálogo carregado. Use o botão sol/lua para alternar tema.');
+  })();
+</script>
+
+<!-- pequeno fallback caso o JS demore, mas ele renderiza imediatamente. 
+     O layout já está funcional. -->
+</body>
+</html>
