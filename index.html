@@ -169,18 +169,88 @@
       border-radius: 30px; font-weight: 600; cursor: pointer;
     }
     #pdfViewerContainer {
-      flex: 1; overflow: auto; display: flex; justify-content: center;
-      background: #525659; padding: 12px; touch-action: pan-y pinch-zoom;
-    }
-    #pdfCanvas {
-      max-width: 100%; height: auto; display: block; box-shadow: 0 4px 12px black;
-      background: white; touch-action: none;  /* Importante: permite detectar gestos */
-    }
+    flex: 1;
+    overflow-y: auto;        /* permite rolar verticalmente */
+    display: flex;
+    justify-content: center;
+    background: #525659;
+    padding: 12px;
+    touch-action: pan-y;      /* garante scroll com dedo */
+}
+
+#pdfCanvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  box-shadow: 0 4px 12px black;
+  background: white;
+  touch-action: pan-y pinch-zoom;  /* permite scroll e zoom */
+  margin: 0 auto;
+}
     .highlight-tooltip {
       position: absolute; background: #1e3a6b; border-radius: 40px; padding: 8px 12px;
       display: none; gap: 8px; box-shadow: 0 4px 12px black; z-index: 1100;
     }
     .color-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
+
+    /* Footer responsivo */
+.simple-footer {
+  margin-top: 14px;
+  padding: 5px 6px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 30px 30px 18px 18px;
+  border-top: 2px solid #2a5ac9;
+  box-shadow: 0 -4px 12px rgba(26, 63, 143, 0.06);
+  color: #0b2552;
+}
+
+.footer-verse {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.footer-verse i {
+  color: #2a5ac9;
+  font-size: 1rem;
+}
+
+.footer-love {
+  font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+  color: #1a3f8f;
+}
+
+.footer-motto {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #2a5ac9;
+}
+
+.footer-motto i {
+  margin: 0 3px;
+}
+
+@media (max-width: 480px) {
+  .simple-footer {
+    padding: 5px 5px;
+    margin-top: 20px;
+  }
+  .footer-verse { font-size: 0.9rem; }
+  .footer-love { font-size: 0.85rem; }
+  .footer-motto { font-size: 0.8rem; }
+}
   </style>
 </head>
 <body>
@@ -262,6 +332,19 @@
     </div>
   </div>
 </div>
+
+<!-- Footer com versículo -->
+<footer class="simple-footer">
+  <div class="footer-verse">
+    <i class="fas fa-book-bible"></i> Josué 24:15 — “Eu e a minha casa serviremos ao Senhor.”
+  </div>
+  <div class="footer-love">
+    Eu e você SEMPRE serviremos ao Senhor, meu amor ❤️
+  </div>
+  <div class="footer-motto">
+    <i class="fas fa-heart" style="color: #c44569;"></i> CORAGEMMMMM! <i class="fas fa-heart" style="color: #c44569;"></i>
+  </div>
+</footer>
 
 <script>
   (() => {
