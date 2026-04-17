@@ -347,13 +347,36 @@
 </footer>
 
 <script>
+  // ---------- Feedback visual para upload de arquivos ----------
+const coverInput = document.getElementById('coverImage');
+const pdfInput = document.getElementById('pdfFile');
+const coverLabel = document.querySelector('label[for="coverImage"]');
+const pdfLabel = document.querySelector('label[for="pdfFile"]');
+
+function updateFileLabel(input, label, defaultText) {
+  if (input.files.length > 0) {
+    const fileName = input.files[0].name;
+    label.innerHTML = `<i class="fas fa-check-circle" style="color: #2a5ac9;"></i> ${fileName}`;
+    label.style.background = '#e0f0ff';
+    label.style.border = '2px solid #2a5ac9';
+  } else {
+    label.innerHTML = defaultText;
+    label.style.background = '#ecf2ff';
+    label.style.border = '2px dashed var(--royal-light)';
+  }
+}
+
+coverInput.addEventListener('change', () => {
+  updateFileLabel(coverInput, coverLabel, '<i class="fas fa-cloud-upload-alt"></i> Escolher imagem');
+});
+
+pdfInput.addEventListener('change', () => {
+  updateFileLabel(pdfInput, pdfLabel, '<i class="fas fa-file-pdf"></i> Selecionar PDF');
+});
   (() => {
     // ---------- CONFIGURAÇÕES ----------
     const CATEGORIES = [
-      "Romance","Aventura","Ação","Drama","Comédia","Suspense","Terror","Mistério",
-      "Fantasia","Ficção científica","Filosofia","Psicologia","Autoajuda","Desenvolvimento pessoal",
-      "Espiritualidade","Educação","História","Ciência","Tecnologia","Negócios","Finanças",
-      "Biografia","Policial","Distopia","Crônicas","Poesia","Religioso"
+      "Romance","Fantasia","Romantasia","Ficção","Suspense","Terror", "Aventura"
     ];
     
     // DB
