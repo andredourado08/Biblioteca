@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Compartilhada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="./css/styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"></script>
+  <script defer src="./js/config.js"></script>
+  <script defer src="./js/app.js"></script>
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <main class="shell">
+    <section id="setupPanel" class="setup-panel">
+      <div>
+        <p class="eyebrow">Configuração necessária</p>
+        <h1>Conecte sua biblioteca ao Supabase</h1>
+        <p>Crie um projeto no Supabase, execute o SQL em <strong>supabase/schema.sql</strong> e preencha <strong>js/config.js</strong> com a URL e a chave pública.</p>
+      </div>
+      <a class="link-button" href="./README.md" target="_blank" rel="noreferrer">Ver instruções</a>
+    </section>
+
+    <section id="authView" class="auth-view hidden">
+      <div class="auth-copy">
+        <p class="eyebrow">Biblioteca online</p>
+        <h1>Biblioteca da minha princesa<br><span class="nowrap">da minha mulher <span class="heart-mark">❤️</span></span></h1>
+        <p>Para acessar, digite seu nome e cole o código da biblioteca compartilhada. Se for o primeiro acesso, clique em Criar biblioteca e envie o código para entrar na mesma estante.</p>
+      </div>
+
+      <form id="authForm" class="auth-card">
+        <h2>Acessar biblioteca</h2>
+        <label>
+          Seu nome
+          <input id="authEmail" type="text" autocomplete="name" placeholder="Ex: André" required>
+        </label>
+        <label>
+          Código da biblioteca
+          <input id="authPassword" type="text" inputmode="latin" autocomplete="off" placeholder="Cole o código compartilhado">
+        </label>
+        <div class="auth-actions">
+          <button class="primary-btn" type="submit">Entrar com código</button>
+          <button class="ghost-btn" id="signUpBtn" type="button">Criar biblioteca</button>
+        </div>
+        </div>
+      </form>
+    </section>
+
+    <section id="appView" class="app-view hidden">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Biblioteca compartilhada</p>
+          <h1 id="libraryName">Biblioteca Princesa</h1>
+          <p class="topbar-subtitle">aproveita os seus livros amor</p>
+        </div>
+        <div class="topbar-actions">
+          <button id="themeToggleBtn" class="icon-btn" title="Alternar tema"><i class="fa-solid fa-circle-half-stroke"></i></button>
+          <button id="signOutBtn" class="ghost-btn" type="button">Sair</button>
+        </div>
+      </header>
+
+      <section class="library-tools">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="searchInput" type="search" placeholder="Buscar por livro ou categoria">
+        </div>
+                <div id="catalogFilter" class="catalog-filter" aria-label="Filtrar por catálogo">
+          <button class="catalog-chip active" type="button" data-category="all"><i class="fa-solid fa-book-open"></i> Todas</button>
+          <button class="catalog-chip" type="button" data-category="Romance">Romance</button>
+          <button class="catalog-chip" type="button" data-category="Fantasia">Fantasia</button>
+          <button class="catalog-chip" type="button" data-category="Romantasia">Romantasia</button>
+          <button class="catalog-chip" type="button" data-category="Ficção">Ficção</button>
+          <button class="catalog-chip" type="button" data-category="Suspense">Suspense</button>
+          <button class="catalog-chip" type="button" data-category="Terror">Terror</button>
+          <button class="catalog-chip" type="button" data-category="Aventura">Aventura</button>
+        </div>
+        <button id="openUploadBtn" class="primary-btn" type="button"><i class="fa-solid fa-plus"></i> Novo livro</button>
+      </section>
+
+      <section class="status-strip">
+        <div><strong id="bookCount">0</strong><span>livros</span></div>
+        <div><strong id="recentCount">0</strong><span>recentes</span></div>
+        <div><strong id="memberEmail">--</strong><span>leitor conectado</span></div>
+      </section>
+
+      <section class="invite-panel">
+        <div>
+          <h2>Código da biblioteca</h2>
+          <p>Envie este código para a outra pessoa entrar na mesma estante.</p>
+        </div>
+        <form id="inviteForm" class="invite-form">
+          <input id="inviteEmail" type="text" readonly value="">
+          <button class="ghost-btn" type="submit">Copiar código</button>
+        </form>
+      </section>
+
+      <div id="uploadDialog" class="dialog hidden">
+        <form id="bookForm" class="dialog-card">
+          <div class="dialog-header">
+            <h2>Adicionar livro</h2>
+            <button id="closeUploadBtn" class="icon-btn" type="button" title="Fechar"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <label>
+            Título
+            <input id="bookTitle" type="text" required>
+          </label>
+                    <label class="category-picker">
+            Categorias
+            <input id="bookCategories" type="hidden" value="">
+            <span id="bookCategoryOptions" class="category-options" aria-label="Escolha uma ou mais categorias">
+              <button class="category-option" type="button" data-category="Romance">Romance</button>
+              <button class="category-option" type="button" data-category="Fantasia">Fantasia</button>
+              <button class="category-option" type="button" data-category="Romantasia">Romantasia</button>
+              <button class="category-option" type="button" data-category="Ficção">Ficção</button>
+              <button class="category-option" type="button" data-category="Suspense">Suspense</button>
+              <button class="category-option" type="button" data-category="Terror">Terror</button>
+              <button class="category-option" type="button" data-category="Aventura">Aventura</button>
+            </span>
+            <small class="field-hint">Toque em uma ou mais categorias para organizar o livro.</small>
+          </label>
+          <label class="file-drop">
+            Arquivo PDF ou EPUB
+            <input id="bookFile" type="file" accept=".pdf,.epub,application/pdf,application/epub+zip" required>
+            <span class="file-drop-box">
+              <i class="fa-solid fa-file-arrow-up"></i>
+              <strong>Escolher livro</strong>
+              <small id="bookFileName">PDF ou EPUB</small>
+            </span>
+          </label>
+          <label class="file-drop">
+            Capa
+            <input id="coverFile" type="file" accept="image/*">
+            <span class="file-drop-box">
+              <i class="fa-solid fa-image"></i>
+              <strong>Escolher capa</strong>
+              <small id="coverFileName">Opcional</small>
+            </span>
+          </label>
+          <p id="uploadStatus" class="upload-status"></p>
+          <button class="primary-btn" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Enviar para biblioteca</button>
+        </form>
+      </div>
+
+      <section>
+        <div class="section-heading">
+          <h2>Estante</h2>
+          <span id="syncStatus">Sincronizado</span>
+        </div>
+        <div id="booksGrid" class="books-grid"></div>
+        <div id="emptyState" class="empty-state hidden">
+          <h2>Nenhum livro ainda</h2>
+          <p>Adicione o primeiro PDF ou EPUB para começar a biblioteca compartilhada.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <section id="readerOverlay" class="reader-overlay hidden">
+    <header class="reader-toolbar">
+      <button id="closeReaderBtn" class="icon-btn" type="button" title="Voltar"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="reader-title">
+        <strong id="readerTitle">Livro</strong>
+        <span id="readerProgress">0%</span>
+      </div>
+      <div class="reader-controls">
+        <button id="prevPageBtn" class="icon-btn" type="button" title="Página anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <span id="pageIndicator">--</span>
+        <button id="nextPageBtn" class="icon-btn" type="button" title="Próxima página"><i class="fa-solid fa-chevron-right"></i></button>
+        <button id="zoomOutBtn" class="icon-btn" type="button" title="Diminuir zoom"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <button id="zoomInBtn" class="icon-btn" type="button" title="Aumentar zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button id="toggleHighlightModeBtn" class="reader-mode-btn" type="button" aria-pressed="false"><i class="fa-solid fa-pen-nib"></i> Modo grifo</button>
+        <button id="toggleAnnotationsBtn" class="reader-notes-btn" type="button"><i class="fa-solid fa-highlighter"></i> Anotações</button>
+      </div>
+    </header>
+
+    <div id="annotationBackdrop" class="annotation-backdrop"></div>
+    <div class="reader-body">
+      <aside class="annotation-panel">
+        <div class="annotation-header">
+          <div class="annotation-title-row">
+            <h2>Anotações</h2>
+            <button id="closeAnnotationsBtn" class="icon-btn annotation-close" type="button" title="Fechar anotações"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="color-picker" id="colorPicker">
+            <button class="color-dot active" data-color="#f8e16c" style="--dot:#f8e16c" title="Amarelo"></button>
+            <button class="color-dot" data-color="#ff9f9f" style="--dot:#ff9f9f" title="Rosa"></button>
+            <button class="color-dot" data-color="#8ee6b8" style="--dot:#8ee6b8" title="Verde"></button>
+            <button class="color-dot" data-color="#9ec8ff" style="--dot:#9ec8ff" title="Azul"></button>
+          </div>
+        </div>
+        <p class="annotation-hint">Ative o modo grifo, selecione um trecho e escolha o que salvar.</p>
+        <button id="manualAnnotationBtn" class="manual-note-btn" type="button"><i class="fa-solid fa-note-sticky"></i> Anotação manual</button>
+        <div id="annotationsList" class="annotations-list"></div>
+      </aside>
+      <div id="readerViewport" class="reader-viewport"></div>
+    </div>
+  </section>
+</body>
+</html>
+
+
